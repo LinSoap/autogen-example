@@ -6,7 +6,7 @@
 
 **前置知识**:
 - 模型配置
-- Assistant Agent
+- [Assistant Agent](../hello_world/README.md)
 - SelectorGroupChat
 - 终止条件
 - 智能体团队协作
