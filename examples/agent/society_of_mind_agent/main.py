@@ -46,22 +46,22 @@ modify_agent = AssistantAgent(
 )
 
 
-def selector_func(messages: Sequence[BaseAgentEvent | BaseChatMessage]) -> str | None:
-    if len(messages) == 1:
-        return "insight_agent"
-    if len(messages) == 3:
-        return "outline_agent"
-    if len(messages) == 5:
-        return "genearte_agent"
-    return "society_of_ming_agent"
-
-
 inner_termination = SourceMatchTermination(["query_agent", "modify_agent"])
 inner_team = SelectorGroupChat(
-    [insight_agent, outline_agent, genearte_agent],
+    [query_agent, modify_agent],
     model_client=model_client,
-    selector_func=selector_func,
     termination_condition=inner_termination,
+    selector_prompt="""
+        选择一个智能体来执行任务。
+        {roles}
+        当前对话上下文：
+        {history}
+        当用户的询问性质的意图，则使用 query_agent 来回答。
+        当用户的请求是修改内容意图，则使用 modify_agent 来修改内容。
+        阅读上述对话，然后从 {participants} 中选择一个智能体来执行下一个任务。
+        确保规划智能体在其他智能体开始工作之前已分配任务。
+        只选择一个智能体。
+    """,
 )
 
 society_of_ming_agent = SocietyOfMindAgent(
@@ -72,8 +72,46 @@ society_of_ming_agent = SocietyOfMindAgent(
 )
 
 
-team = RoundRobinGroupChat(
+def selector_func(messages: Sequence[BaseAgentEvent | BaseChatMessage]) -> str | None:
+    # 获取已经发言的智能体名称
+    agent_names = set()
+    for msg in messages:
+        if hasattr(msg, "source") and msg.source:
+            agent_names.add(msg.source)
+
+    print(f"已发言的智能体: {agent_names}")
+
+    # 如果没有任何智能体发言，从insight_agent开始
+    if "insight_agent" not in agent_names:
+        return "insight_agent"
+
+    # 如果包含insight_agent，则使用outline_agent
+    if "insight_agent" in agent_names and "outline_agent" not in agent_names:
+        return "outline_agent"
+
+    # 如果包含insight_agent和outline_agent，则使用genearte_agent
+    if (
+        "insight_agent" in agent_names
+        and "outline_agent" in agent_names
+        and "genearte_agent" not in agent_names
+    ):
+        return "genearte_agent"
+
+    # 如果3个特定agent都有了，则选择society_of_ming_agent
+    if all(
+        agent in agent_names
+        for agent in ["insight_agent", "outline_agent", "genearte_agent"]
+    ):
+        return "society_of_ming_agent"
+
+    # 默认返回None
+    return None
+
+
+team = SelectorGroupChat(
     [insight_agent, outline_agent, genearte_agent, society_of_ming_agent],
+    model_client=model_client,
+    selector_func=selector_func,
     termination_condition=SourceMatchTermination(
         [
             "insight_agent",
@@ -85,14 +123,24 @@ team = RoundRobinGroupChat(
 )
 
 
-async def assistant_run() -> None:
-    await Console(
-        team.run_stream(
-            task="帮我生成一篇300字的麦当劳实习生周报",
-            cancellation_token=CancellationToken(),
-        ),
-        output_stats=True,
-    )
+async def main() -> None:
+    while True:
+        try:
+            task = input("请输入您的任务（输入'quit'退出）: ")
+            if task.lower() == "quit":
+                break
+
+            await Console(
+                team.run_stream(
+                    task=task + "/no_think",
+                    cancellation_token=CancellationToken(),
+                ),
+                output_stats=True,
+            )
+            await team.save_state()
+        except KeyboardInterrupt:
+            print("\n程序已中断")
+            break
 
 
-asyncio.run(assistant_run())
+asyncio.run(main())
