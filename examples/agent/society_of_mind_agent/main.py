@@ -64,8 +64,8 @@ inner_team = SelectorGroupChat(
     """,
 )
 
-society_of_ming_agent = SocietyOfMindAgent(
-    name="society_of_ming_agent",
+society_of_mind_agent = SocietyOfMindAgent(
+    name="society_of_mind_agent",
     model_client=model_client,
     team=inner_team,
     description="这是一报告助手，用于修改报告的内容或者对用户对报告提出的疑问进行解答",
@@ -109,7 +109,7 @@ def selector_func(messages: Sequence[BaseAgentEvent | BaseChatMessage]) -> str |
 
 
 team = SelectorGroupChat(
-    [insight_agent, outline_agent, genearte_agent, society_of_ming_agent],
+    [insight_agent, outline_agent, genearte_agent, society_of_mind_agent],
     model_client=model_client,
     selector_func=selector_func,
     termination_condition=SourceMatchTermination(
