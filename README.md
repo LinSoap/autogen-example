@@ -21,4 +21,7 @@
 - [Team Tool JSON 生成示例](./examples/tool/insure_json_team_tool/README.md)  
     🟡 中级，展示如何通过团队协作确保标准 JSON 输出，适合结构化数据场景。
 
+### 进阶/高级示例
+- [Custom Tool Call Agent 示例](./examples/advance/custom_tool_call_agent/README.md)  
+    🔴 高级+，演示如何实现自动调用多智能体团队工具、结构化输出校验的自定义 ToolCallAgent，适合深入理解多工具、多团队协作与结构化数据输出的开发者。
 
