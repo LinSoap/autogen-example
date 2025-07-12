@@ -10,6 +10,7 @@
 - BaseChatAgent 智能体基础
 - 工具（Tool）与 TeamTool 机制
 - 多智能体团队编排
+- Agent Memory
 - Pydantic 结构化模型
 - 异步编程
 
@@ -26,8 +27,8 @@ uv run -m examples.advance.custom_tool_call_agent.tool_call_agent
 ## 系统架构
 
 ### 主要组件
-- **ToolCallAgent**: 自定义智能体，自动调用团队工具并返回结构化结果
-- **insight_agent**: 内容理解与需求分析智能体
+- **ToolCallAgent**: 自定义智能体，自动调用团队工具并返回结构化结果，支持注入多条 Memory，实现用户偏好、历史信息等上下文记忆增强
+- **insight_agent**: 内容理解与需求分析智能体，支持 memory 注入，自动融合用户历史信息
 - **json_agent**: 结构化 JSON 检查与修正智能体
 - **insight_inner_team**: 由 insight_agent 和 json_agent 组成的团队，负责需求分析和结构化输出
 - **insight_inner_team_tool**: 将团队封装为工具，供 ToolCallAgent 调用
@@ -75,7 +76,9 @@ uv run -m examples.advance.custom_tool_call_agent.tool_call_agent
 - **自动工具调用**: 智能体自动调用团队工具，无需手动干预
 - **异步与流式执行**: 支持异步与流式消息处理
 - **类型安全与校验**: 多层校验，确保输出合规
+- **上下文记忆（Memory）支持**: 可为智能体注入多条 Memory，实现用户偏好、历史信息等上下文增强，提升多轮对话与个性化能力
 
 ---
 
-本示例为复杂多智能体团队与工具集成、结构化数据输出与校验提供了完整模板，适合扩展为更复杂的业务流程与多工具协作
+> **Memory 用法举例**  
+> 在 `tool_call_agent.py` 中，通过 `ListMemory` 注入用户信息（如年龄、性别、实习经历等），`insight_agent` 会自动融合这些信息进行内容分析和追问，提升智能体理解能力和上下文连贯性
