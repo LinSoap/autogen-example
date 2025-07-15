@@ -4,10 +4,11 @@ from autogen_agentchat.conditions import TextMentionTermination, MaxMessageTermi
 from autogen_core.tools import FunctionTool, StaticWorkbench
 from autogen_agentchat.ui import Console
 from config.model_config import model_client
+from typing import List
 import asyncio
 
 
-def get_file_path() -> str:
+def get_file_path() -> List[str]:
     """
     返回值为用户上传的文件路径
     """
