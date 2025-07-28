@@ -10,7 +10,6 @@
 - RoundRobinGroupChat 和 SelectorGroupChat
 - StructuredMessage 与 Pydantic 模型
 - 多层团队架构设计
-- Agent handoffs 机制
 
 ## 运行方式
 ```bash
