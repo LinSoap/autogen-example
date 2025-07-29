@@ -25,3 +25,6 @@
 - [Custom Tool Call Agent 示例](./examples/advance/custom_tool_call_agent/README.md)  
     🔴 高级+，演示如何实现自动调用多智能体团队工具、结构化输出校验的自定义 ToolCallAgent，适合深入理解多工具、多团队协作与结构化数据输出的开发者。
 
+- [Report Writer New 示例](./examples/advance/report_writer_new/README.md)  
+    🔴 高级+，展示 AutoGen 0.7 版本团队嵌套特性的完整演示，通过多层团队架构实现智能写作系统，适合希望深入理解团队嵌套机制和层次化智能体管理的开发者。
+
