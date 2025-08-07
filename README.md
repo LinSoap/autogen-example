@@ -1,6 +1,6 @@
 # 项目 Roadmap
 
-本项目包含多个 AutoGen 示例，涵盖从入门到进阶的多智能体协作、工具集成与数据结构化输出等特性。以下为各示例及其文档一览：
+本项目包含多个 AutoGen 示例，涵盖从入门到进阶的多智能体协作、工具
 
 ## 目录结构与文档列表
 
@@ -27,4 +27,10 @@
 
 - [Report Writer New 示例](./examples/advance/report_writer_new/README.md)  
     🔴 高级+，展示 AutoGen 0.7 版本团队嵌套特性的完整演示，通过多层团队架构实现智能写作系统，适合希望深入理解团队嵌套机制和层次化智能体管理的开发者。
+
+### Team 团队协作示例
+- [SelectorGroupChat 团队智能分配示例](./examples/team/SelectorGroupChat/README.md)  
+    🟢 初级，展示 SelectorGroupChat 智能分配机制，自动选择最合适的 Agent 处理任务，适合多领域专家团队协作。
+- [RoundRobinGroupChat 轮询团队协作示例](./examples/team/RoundRobinGroupChat/README.md)  
+    🟢 初级，展示团队成员轮流发言、反思与协作，适合主-Agent+评论-Agent 场景。
 
