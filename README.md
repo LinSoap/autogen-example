@@ -14,6 +14,9 @@
 - [Custom Agent 示例](./examples/agent/custom_agent/README.md)  
     🔴 高级，演示如何实现自动调用工具（如函数）的自定义智能体 ToolCallAgent，适合希望学习工具集成与高级智能体扩展的开发者。
 
+- [CodeExecutorAgent 代码执行示例](./examples/agent/code_executor_agent/README.md)  
+    🟢 入门级，展示如何使用 CodeExecutorAgent 在 Docker 容器中安全执行代码，实现自动化数据分析任务。
+
 ### Tool 相关示例
 - [Agent Tool 示例](./examples/tool/agent_tool/README.md)  
     🟡 中级，展示 AgentTool 工具集成与多智能体数据校验。
