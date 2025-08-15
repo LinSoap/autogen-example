@@ -36,4 +36,6 @@
     🟢 初级，展示 SelectorGroupChat 智能分配机制，自动选择最合适的 Agent 处理任务，适合多领域专家团队协作。
 - [RoundRobinGroupChat 轮询团队协作示例](./examples/team/RoundRobinGroupChat/README.md)  
     🟢 初级，展示团队成员轮流发言、反思与协作，适合主-Agent+评论-Agent 场景。
+- [MagenticOneGroupChat 协作示例](./examples/team/MagenticOneGroupChat/README.md)  
+    🟡 中级，展示 FileSurfer 与 CodeExecutorAgent 协作完成数据分析任务，包含用户审批与执行器配置（本地或容器）。
 
