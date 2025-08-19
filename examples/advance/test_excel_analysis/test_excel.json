@@ -1,0 +1,101 @@
+[
+  {
+    "id": 4,
+    "question": "计算所有人事部门员工的平均薪资。",
+    "concepts": [
+      "Summary Statistics"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "13883.33"
+  },
+  {
+    "id": 5,
+    "question": "财务部门员工的总数是多少？",
+    "concepts": [
+      "Counting"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "3"
+  },
+  {
+    "id": 6,
+    "question": "查找薪资最高的员工。",
+    "concepts": [
+      "Finding Maximum"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "李洋"
+  },
+  {
+    "id": 7,
+    "question": "计算人事部门员工的平均绩效评分。",
+    "concepts": [
+      "Summary Statistics"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "2.6"
+  },
+  {
+    "id": 8,
+    "question": "计算市场部员工的平均薪资。",
+    "concepts": [
+      "Summary Statistics"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "16242.41"
+  },
+  {
+    "id": 9,
+    "question": "技术部门员工的总数是多少？",
+    "concepts": [
+      "Counting"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "7"
+  },
+  {
+    "id": 10,
+    "question": "查找绩效评分最高的员工。",
+    "concepts": [
+      "Finding Maximum"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "刘艳、张静、黄静"
+  },
+  {
+    "id": 11,
+    "question": "查找薪资最低的员工。",
+    "concepts": [
+      "Finding Minimum"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "杨娜"
+  },
+  {
+    "id": 12,
+    "question": "运营部门的员工总数是多少？",
+    "concepts": [
+      "Counting"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "2"
+  },
+  {
+    "id": 13,
+    "question": "技术部门员工的平均绩效评分是多少？",
+    "concepts": [
+      "Summary Statistics"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "3.42"
+  },
+  {
+    "id": 14,
+    "question": "哪位员工入职时间最早？",
+    "concepts": [
+      "日期处理"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "刘超"
+  }
+]
