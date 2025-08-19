@@ -1,101 +1,116 @@
 [
   {
-    "id": 4,
-    "question": "计算所有人事部门员工的平均薪资。",
+    "id": 1,
+    "question": "查询人事部门员工的姓名和薪资。",
     "concepts": [
-      "Summary Statistics"
+      "筛选"
     ],
     "file_name": "1-2.xlsx",
-    "answer": "13883.33"
+    "answer": "黄洋, 16716.48; 陈丽, 7028.23; 杨秀英, 16297.86; 张霞, 16004.81; 赵娟, 13366.99"
+  },
+  {
+    "id": 2,
+    "question": "查询财务部门中薪资高于16000的员工信息。",
+    "concepts": [
+      "筛选"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "E1010, 张磊, 财务, 2020-11-30, 17643.79, 4"
+  },
+  {
+    "id": 3,
+    "question": "查询绩效评分为5的技术部门员工姓名。",
+    "concepts": [
+      "筛选"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "张静, 黄静"
+  },
+  {
+    "id": 4,
+    "question": "查询所有员工中，入职日期在2020年的员工姓名。",
+    "concepts": [
+      "筛选"
+    ],
+    "file_name": "1-2.xlsx",
+    "answer": "刘超, 黄洋, 陈丽, 杨秀英, 张霞, 周洋, 王强, 刘艳, 赵芳, 张静, 张磊, 黄静"
   },
   {
     "id": 5,
-    "question": "财务部门员工的总数是多少？",
+    "question": "查询薪资最高的员工所属部门。",
     "concepts": [
-      "Counting"
+      "排序",
+      "筛选"
     ],
     "file_name": "1-2.xlsx",
-    "answer": "3"
+    "answer": "市场"
   },
   {
     "id": 6,
-    "question": "查找薪资最高的员工。",
+    "question": "查询薪资从高到低前三名的员工姓名、部门和薪资。",
     "concepts": [
-      "Finding Maximum"
+      "排序"
     ],
     "file_name": "1-2.xlsx",
-    "answer": "李洋"
+    "answer": "李洋, 市场, 18662.92; 张静, 技术, 18422.05; 赵芳, 市场, 18171.79"
   },
   {
     "id": 7,
-    "question": "计算人事部门员工的平均绩效评分。",
+    "question": "查询2023年GDP超过100000亿元的省份及其GDP。",
     "concepts": [
-      "Summary Statistics"
+      "筛选"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "2.6"
+    "file_name": "1-3.xlsx",
+    "answer": "江苏省, 128222.2; 广东省, 135673.2"
   },
   {
     "id": 8,
-    "question": "计算市场部员工的平均薪资。",
+    "question": "查询2022年GDP排名前三的省份。",
     "concepts": [
-      "Summary Statistics"
+      "排序",
+      "筛选"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "16242.41"
+    "file_name": "1-3.xlsx",
+    "answer": "广东省, 江苏省, 山东省"
   },
   {
     "id": 9,
-    "question": "技术部门员工的总数是多少？",
+    "question": "查询2014年到2023年GDP增长额（2023减2014）最大的省份。",
     "concepts": [
-      "Counting"
+      "Arithmetic Operation",
+      "排序"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "7"
+    "file_name": "1-3.xlsx",
+    "answer": "广东省"
   },
   {
     "id": 10,
-    "question": "查找绩效评分最高的员工。",
+    "question": "查询2023年GDP低于全国平均值的省份数量。",
     "concepts": [
-      "Finding Maximum"
+      "Summary Statistics",
+      "筛选",
+      "Counting"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "刘艳、张静、黄静"
+    "file_name": "1-3.xlsx",
+    "answer": "18"
   },
   {
     "id": 11,
-    "question": "查找薪资最低的员工。",
+    "question": "查询北京市2014年至2023年的GDP数据。",
     "concepts": [
-      "Finding Minimum"
+      "筛选"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "杨娜"
+    "file_name": "1-3.xlsx",
+    "answer": "22926, 24779.1, 27041.2, 29883, 33106, 35445.1, 35943.3, 41045.6, 41540.9, 43760.7"
   },
   {
     "id": 12,
-    "question": "运营部门的员工总数是多少？",
+    "question": "列出所有2023年GDP高于50000亿元的省份，并按GDP从高到低排序。",
     "concepts": [
-      "Counting"
+      "筛选",
+      "排序"
     ],
-    "file_name": "1-2.xlsx",
-    "answer": "2"
-  },
-  {
-    "id": 13,
-    "question": "技术部门员工的平均绩效评分是多少？",
-    "concepts": [
-      "Summary Statistics"
-    ],
-    "file_name": "1-2.xlsx",
-    "answer": "3.42"
-  },
-  {
-    "id": 14,
-    "question": "哪位员工入职时间最早？",
-    "concepts": [
-      "日期处理"
-    ],
-    "file_name": "1-2.xlsx",
-    "answer": "刘超"
+    "file_name": "1-3.xlsx",
+    "answer": "广东省, 江苏省, 山东省, 浙江省,  四川省,河南省, 湖北省, 福建省，湖南省"
   }
 ]
