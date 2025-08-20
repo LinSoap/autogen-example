@@ -1,0 +1,3 @@
+Interferometer and observing mode	Waveband	Limiting magnitude	Minimum baseline (m)\n(un-projected)	Maximum baseline (m)	Approx. no. visibility measurements per year\n(measurements per night x nights used per year)	Max ratio of no. phase / no. amplitude measurements\n(measure of imaging performance, 0 = none)	Accuracy of amplitude2 measurements	Accuracy of phase measurements\n(milli-radians)	Number of spectral channels\n(max in use simultaneously)	Comments
+ H, K	8	34	330	7500	0.7	1%	10	30000	Yes... 30000 in the visible band; maxiumum baseline 330-m
+ No imaging on a single baseline instrument. CLOSED 2009.,

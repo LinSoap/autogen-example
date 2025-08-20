@@ -27,7 +27,7 @@ from src.db_manager import DuckDBManager
 async def main() -> None:
     # 读取测试集
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(current_dir, "test_excel.json")
+    json_path = os.path.join(current_dir, "output_data.json")
     with open(json_path, "r", encoding="utf-8") as f:
         test_cases = json.load(f)
 
@@ -37,26 +37,34 @@ async def main() -> None:
         grouped_cases[case["file_name"]].append(case)
 
     # 结果收集
-    results = []
+    result_csv_path = os.path.join(current_dir, "test_result_version2.csv")
+    # 写入表头
+    with open(result_csv_path, "w", encoding="utf-8-sig") as f:
+        f.write("id,question,answer,analysis_result,judge_result\n")
 
     for file_name, cases in grouped_cases.items():
         print(f"--- Processing file: {file_name} ---")
-        excel_path = os.path.join(current_dir, "data", file_name)
+        excel_path = os.path.join(current_dir, "extracted_tables", file_name)
 
         try:
-            df = pd.read_excel(excel_path)
+            df = pd.read_csv(excel_path)
         except FileNotFoundError:
             print(f"Error: File not found at {excel_path}")
             # 记录该文件下所有问题为失败
             for case in cases:
-                results.append(
-                    {
-                        "id": case["id"],
-                        "question": case["question"],
-                        "answer": case["answer"],
-                        "analysis_result": "File not found",
-                        "judge_result": "Error",
-                    }
+                row = {
+                    "id": case["id"],
+                    "question": case["question"],
+                    "answer": case["answer"],
+                    "analysis_result": "File not found",
+                    "judge_result": "Error",
+                }
+                pd.DataFrame([row]).to_csv(
+                    result_csv_path,
+                    mode="a",
+                    header=False,
+                    index=False,
+                    encoding="utf-8-sig",
                 )
             continue
 
@@ -132,20 +140,21 @@ async def main() -> None:
             print("-" * 50)
             print(f"评测: {judge_result}\n")
 
-            results.append(
-                {
-                    "id": case["id"],
-                    "question": question,
-                    "answer": answer,
-                    "analysis_result": analysis_result,
-                    "judge_result": judge_result,
-                }
+            row = {
+                "id": case["id"],
+                "question": question,
+                "answer": answer,
+                "analysis_result": analysis_result,
+                "judge_result": judge_result,
+            }
+            pd.DataFrame([row]).to_csv(
+                result_csv_path,
+                mode="a",
+                header=False,
+                index=False,
+                encoding="utf-8-sig",
             )
 
-    # 保存结果到DataFrame并导出csv
-    result_df = pd.DataFrame(results)
-    result_csv_path = os.path.join(current_dir, "test_result_version2.csv")
-    result_df.to_csv(result_csv_path, index=False, encoding="utf-8-sig")
     print(f"测试结果已保存到: {result_csv_path}")
 
 

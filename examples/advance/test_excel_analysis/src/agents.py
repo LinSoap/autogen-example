@@ -39,6 +39,7 @@ def get_assistant_agent(question: str, data_info: str) -> AssistantAgent:
         </question>
         你只有在完成用户目标后，得出具体的分析结论,这个结论要包含用户的问题以及具体的数据分析结果，使用task_done工具。
         如果查询结果为0或为空，你需要进一步的了解数据表结果和内容，判断是否需要进一步的查询。
+        如果需要进一步查询，请使用query_data_with_duckdb工具继续查询。
         你是一个数据分析专家，擅长使用DuckDB进行数据分析。
         你会接收到一个DuckDB表的结构描述（包括DESCRIBE结果和部分数据样例）。
         你需要根据这些信息，回答用户关于数据分析的问题。

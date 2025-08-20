@@ -1,7 +1,11 @@
 from autogen_agentchat.agents import (
     AssistantAgent,
 )
-from autogen_agentchat.conditions import TextMentionTermination, MaxMessageTermination
+from autogen_agentchat.conditions import (
+    TextMentionTermination,
+    MaxMessageTermination,
+    FunctionCallTermination,
+)
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.ui import Console
@@ -64,14 +68,27 @@ def query_data_with_duckdb(query: str) -> str:
         return f"Query failed: {str(e)}"
 
 
-def get_assistant_agent(data_info: str) -> AssistantAgent:
+def task_done(result: str) -> str:
+    """
+    标记任务已完成的工具函数。
+    用于在对话中明确表示任务已结束，并返回最终结果摘要。
+    """
+    return result
+
+
+def get_assistant_agent(question: str, data_info: str) -> AssistantAgent:
     agent = AssistantAgent(
         name="excel_analysis_agent",
         model_client=model_client,
-        model_client_stream=True,
-        tools=[query_data_with_duckdb],
+        # model_client_stream=True,
+        tools=[query_data_with_duckdb, task_done],
         reflect_on_tool_use=True,
         system_message=f"""
+        以下是用户的问题:
+        <question>
+            {question}
+        </question>
+        你只有在完成用户目标后，得出具体的分析结论,这个结论要包含用户的问题以及具体的数据分析结果，使用task_done工具。
         你是一个数据分析专家，擅长使用DuckDB进行数据分析。
         你会接收到一个DuckDB表的结构描述（包括DESCRIBE结果和部分数据样例）。
         你需要根据这些信息，回答用户关于数据分析的问题。
@@ -92,27 +109,32 @@ def get_assistant_agent(data_info: str) -> AssistantAgent:
     return agent
 
 
-def get_ciritical_agent(data_info: str) -> AssistantAgent:
-    agent = AssistantAgent(
-        name="critical_agent",
-        model_client=model_client,
-        model_client_stream=True,
-        system_message=f"""
-        你是一个数据分析结果解读专家，擅长从数据分析结果中提取关键信息并进行解释。
-        如果数据分析没有返回结果，请说明没有结果的可能原因。并给出改进建议。
-        如果有结果，请提取结果中的关键信息，进行简要解释，并给出下一步的建议。直到完成用户目标任务。
-        完成任务后，回复`数据分析任务已完成`以结束对话。
-        <duck_db_info>
-            {data_info}
-        </duck_db_info>
-        以下是Duck表的原始信息，请结合使用：
-        以下是可用的DuckDB表列表：
-        <table_list>
-            {', '.join(DuckDBManager.list_tables())}
-        </table_list>
-        """,
-    )
-    return agent
+# def get_ciritical_agent(question, data_info: str) -> AssistantAgent:
+#     agent = AssistantAgent(
+#         name="critical_agent",
+#         model_client=model_client,
+#         tools=[task_done],
+#         model_client_stream=True,
+#         system_message=f"""
+#         这是用户的问题:
+#         <question>
+#             {question}
+#         </question>
+#         你是一个数据分析结果解读专家，擅长从数据分析结果中提取关键信息并进行解释。
+#         如果数据分析没有返回结果，请说明没有结果的可能原因。并给出改进建议。
+#         如果有结果，请提取结果中的关键信息，进行简要解释，并给出下一步的建议。直到完成用户目标任务。
+#         只有在完全完成用户目标后，使用task_done工具。
+#         <duck_db_info>
+#             {data_info}
+#         </duck_db_info>
+#         以下是Duck表的原始信息，请结合使用：
+#         以下是可用的DuckDB表列表：
+#         <table_list>
+#             {', '.join(DuckDBManager.list_tables())}
+#         </table_list>
+#         """,
+#     )
+#     return agent
 
 
 def get_generate_data_info_agent() -> AssistantAgent:
@@ -141,9 +163,12 @@ def get_generate_data_info_agent() -> AssistantAgent:
 async def assistant_run() -> None:
     # 获取当前脚本的目录
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    excel_path = os.path.join(current_dir, "bank-additional-full.xlsx")
+    excel_path = os.path.join(current_dir, "1-2.xlsx")
 
     df = pd.read_excel(excel_path)
+
+    print(df.describe())
+    print(df.value_counts())
 
     # 3. 将 DataFrame 注册为一个临时表（例如，'my_table'）
     DuckDBManager.register_dataframe(df, "duckdb_table")
@@ -157,51 +182,53 @@ async def assistant_run() -> None:
     """
     ).df()
 
-    desc_result = con.execute(
-        """
-        DESCRIBE duckdb_table 
-    """
-    ).df()
+    # desc_result = con.execute(
+    #     """
+    #     DESCRIBE duckdb_table
+    # """
+    # ).df()
 
-    info_agent = get_generate_data_info_agent()
+    # info_agent = get_generate_data_info_agent()
 
-    async for message in info_agent.run_stream(
-        task=TextMessage(
-            content=f"""
-            请使用中文分析以下DataFrame的信息：
-            <desc_info>{desc_result}</desc_info>
-            <data_head>{head_result}</data_head>
-            """,
-            source="user",
-        )
-    ):
-        if isinstance(message, TaskResult):
-            autogen_result = message.model_dump()
-            new_data_info = autogen_result["messages"][-1]["content"]
-    print(new_data_info)
+    # async for message in info_agent.run_stream(
+    #     task=TextMessage(
+    #         content=f"""
+    #         请使用中文分析以下DataFrame的信息：
+    #         <desc_info>{desc_result}</desc_info>
+    #         <data_head>{head_result}</data_head>
+    #         """,
+    #         source="user",
+    #     )
+    # ):
+    #     if isinstance(message, TaskResult):
+    #         autogen_result = message.model_dump()
+    #         new_data_info = autogen_result["messages"][-1]["content"]
+    # print(new_data_info)
 
-    response_agent = get_assistant_agent(new_data_info)
-    critical_agent = get_ciritical_agent(new_data_info)
+    # question = "计算所有人事部门员工的平均薪资。"
 
-    termination_condition = TextMentionTermination(
-        "数据分析任务已完成"
-    ) | MaxMessageTermination(15)
-    team = RoundRobinGroupChat(
-        [response_agent, critical_agent],
-        termination_condition=termination_condition,
-    )
+    # response_agent = get_assistant_agent(question, new_data_info)
+    # # critical_agent = get_ciritical_agent(question, new_data_info)
 
-    await Console(
-        team.run_stream(
-            task=[
-                TextMessage(
-                    content="计算订阅定期存款的客户比例",
-                    source="user",
-                )
-            ]
-        ),
-        output_stats=True,
-    )
+    # termination_condition = MaxMessageTermination(15) | FunctionCallTermination(
+    #     "task_done"
+    # )
+    # team = RoundRobinGroupChat(
+    #     [response_agent],
+    #     termination_condition=termination_condition,
+    # )
+
+    # await Console(
+    #     team.run_stream(
+    #         task=[
+    #             TextMessage(
+    #                 content=question,
+    #                 source="user",
+    #             )
+    #         ]
+    #     ),
+    #     output_stats=True,
+    # )
 
 
 asyncio.run(assistant_run())

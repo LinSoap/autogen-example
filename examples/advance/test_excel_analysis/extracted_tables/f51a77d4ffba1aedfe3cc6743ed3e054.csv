@@ -1,0 +1,9 @@
+Animal,Sex,Metabolic rate,Mean,Difference from mean,Squared difference from mean
+1,Female,727.7,1285.5,557.8,311140.84
+2,Female,1086.5,1285.5,199.0,39601.00
+3,Female,1091.0,1285.5,194.5,37830.25
+4,Female,1361.3,1285.5,75.8,5745.64
+5,Female,1490.5,1285.5,205.0,42025.00
+6,Female,1956.1,1285.5,670.6,449704.36
+-,-,-,-,-,-
+Mean of metabolic rates,Mean of metabolic rates,Mean of metabolic rates,1285.5,Sum of squared differences,886047.09
